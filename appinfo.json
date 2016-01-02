@@ -1,0 +1,39 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "ryan.niswonger@gmail.com",
+    "longName": "Tutorial - Part 3",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "characterRegex": "[0-9CF\u00b0 Loading.]",
+                "file": "fonts/Kanit-Regular.ttf",
+                "name": "FONT_KANIT_REGULAR_20",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9:. ]",
+                "file": "fonts/Kanit-Bold.ttf",
+                "name": "FONT_KANIT_BOLD_45",
+                "targetPlatforms": null,
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Tutorial - Part 3",
+    "targetPlatforms": [
+        "aplite",
+        "basalt",
+        "chalk"
+    ],
+    "uuid": "1ac553d7-5997-45c8-8b61-c220d6ffff39",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
