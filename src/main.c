@@ -62,6 +62,16 @@ static void update_time() {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
+  
+  // Get updates every 30 min
+  if (tick_time->tm_min % 30 == 0) {
+    DictionaryIterator *iter;
+    app_message_outbox_begin(&iter);
+    
+    dict_write_uint8(iter, 0, 0);
+    
+    app_message_outbox_send();
+  }
 }
 
 
@@ -72,7 +82,7 @@ static void main_window_load(Window *window) {
   
   // Custom fonts
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ALIEN_REGULAR_40));
-  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KANIT_REGULAR_20));
+  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_COND_REG_20));
   
   // Create the time TextLayer
   s_time_layer = text_layer_create(
@@ -81,7 +91,7 @@ static void main_window_load(Window *window) {
   
   // Style the time text
   text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorBlack);
+  text_layer_set_text_color(s_time_layer, GColorRed);
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   
@@ -96,7 +106,7 @@ static void main_window_load(Window *window) {
   
   // Style the weather text  
   text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_text_color(s_weather_layer, GColorBlack);
+  text_layer_set_text_color(s_weather_layer, GColorDarkGray);
   text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
   text_layer_set_text(s_weather_layer, "Loading...");
   text_layer_set_font(s_weather_layer, s_weather_font);

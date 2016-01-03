@@ -13,18 +13,17 @@
     "resources": {
         "media": [
             {
+                "file": "fonts/RobotoCondensed-Regular.ttf",
+                "name": "FONT_ROBOTO_COND_REG_20",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
                 "characterRegex": "[0-9:. ]",
                 "file": "fonts/SFAlienEncountersSolid.ttf",
                 "name": "FONT_ALIEN_REGULAR_40",
                 "targetPlatforms": null,
-                "trackingAdjust": -4,
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9CF\u00b0 A-Za-z.]",
-                "file": "fonts/Kanit-Regular.ttf",
-                "name": "FONT_KANIT_REGULAR_20",
-                "targetPlatforms": null,
+                "trackingAdjust": -3,
                 "type": "font"
             }
         ]

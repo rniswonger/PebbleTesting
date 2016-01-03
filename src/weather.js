@@ -36,10 +36,10 @@ function locationSuccess(pos) {
       // Send to Pebble
       Pebble.sendAppMessage(dictionary,
         function(e){
-          consle.log('Weather info sent to Pebble successfully!');
+          console.log('Weather info sent to Pebble successfully!');
         },
         function(e){
-          consle.log('Error sending weather info to Pebble!');
+          console.log('Error sending weather info to Pebble!');
         }
       );            
     }
