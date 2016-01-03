@@ -10,6 +10,43 @@ static GFont s_time_font;
 static GFont s_weather_font;
 static TextLayer *s_weather_layer;
 
+#define KEY_TEMPERATURE 0
+#define KEY_CONDITIONS 1
+
+
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+  static char temperature_buffer[8];
+  static char conditions_buffer[32];
+  static char weather_layer_buffer[32];
+
+  // Read tuples for data
+  Tuple *temp_tuple = dict_find(iterator, KEY_TEMPERATURE);
+  Tuple *cond_tuple = dict_find(iterator, KEY_CONDITIONS);
+  
+  // If the data is available, display it
+  if (temp_tuple && cond_tuple) {
+    snprintf(temperature_buffer, sizeof(temperature_buffer), "%d°F", (int)temp_tuple->value->int32);
+    snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", cond_tuple->value->cstring);
+    
+    snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s %s", temperature_buffer, conditions_buffer);
+    text_layer_set_text(s_weather_layer, weather_layer_buffer);
+  }
+  
+}
+
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");  
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send success!");
+}
+
+
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL);
@@ -27,13 +64,14 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
 }
 
+
 static void main_window_load(Window *window) {
   // Get information about the Window
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
   
   // Custom fonts
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KANIT_BOLD_45));
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ALIEN_REGULAR_40));
   s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KANIT_REGULAR_20));
   
   // Create the time TextLayer
@@ -53,7 +91,7 @@ static void main_window_load(Window *window) {
   
   // Create the temperature TextLayer
   s_weather_layer = text_layer_create(
-    GRect(0, PBL_IF_ROUND_ELSE(125, 120), bounds.size.w, 25)
+    GRect(0, PBL_IF_ROUND_ELSE(105, 100), bounds.size.w, 25)
   );
   
   // Style the weather text  
@@ -78,6 +116,7 @@ static void main_window_unload(Window *window) {
   fonts_unload_custom_font(s_weather_font);
 }
 
+
 static void init() {
   // Create main Window element and assign to pointer
   s_main_window = window_create();
@@ -96,6 +135,14 @@ static void init() {
   
   // Make sure the time is displayed when started
   update_time();
+  
+  // Register callbacks
+  app_message_register_inbox_received(inbox_received_callback);  
+  app_message_register_inbox_dropped(inbox_dropped_callback);
+  app_message_register_outbox_failed(outbox_failed_callback);
+  app_message_register_outbox_sent(outbox_sent_callback);
+  
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 }
 
 static void deinit() {

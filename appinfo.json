@@ -1,7 +1,11 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "KEY_CONDITIONS": 1,
+        "KEY_TEMPERATURE": 0
+    },
     "capabilities": [
-        ""
+        "location",
+        "configurable"
     ],
     "companyName": "ryan.niswonger@gmail.com",
     "longName": "Tutorial - Part 3",
@@ -9,16 +13,17 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[0-9CF\u00b0 Loading.]",
-                "file": "fonts/Kanit-Regular.ttf",
-                "name": "FONT_KANIT_REGULAR_20",
+                "characterRegex": "[0-9:. ]",
+                "file": "fonts/SFAlienEncountersSolid.ttf",
+                "name": "FONT_ALIEN_REGULAR_40",
                 "targetPlatforms": null,
+                "trackingAdjust": -4,
                 "type": "font"
             },
             {
-                "characterRegex": "[0-9:. ]",
-                "file": "fonts/Kanit-Bold.ttf",
-                "name": "FONT_KANIT_BOLD_45",
+                "characterRegex": "[0-9CF\u00b0 A-Za-z.]",
+                "file": "fonts/Kanit-Regular.ttf",
+                "name": "FONT_KANIT_REGULAR_20",
                 "targetPlatforms": null,
                 "type": "font"
             }
