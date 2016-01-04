@@ -13,6 +13,13 @@
     "resources": {
         "media": [
             {
+                "characterRegex": "[0-9%?]",
+                "file": "fonts/FFF_Harmony.zip",
+                "name": "FONT_FFFHARMONY_8",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
                 "file": "fonts/RobotoCondensed-Regular.ttf",
                 "name": "FONT_ROBOTO_COND_REG_20",
                 "targetPlatforms": null,
